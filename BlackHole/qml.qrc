@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>Space.jpg</file>
+        <file>earth.png</file>
+        <file>black_hole.png</file>
+        <file>help.js</file>
+    </qresource>
+</RCC>
