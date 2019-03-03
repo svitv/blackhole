@@ -4,19 +4,20 @@ import QtQuick.Layouts 1.3
 import QtQuick.Particles 2.12
 import "help.js" as Help
 
-
+// Okno programa velikosti 512x512
 ApplicationWindow
 {
    id: window
    visible: true
    width: 512
-   height: 540
+   height: 512
    minimumWidth: 512
    minimumHeight: 512
    maximumHeight: 512
    maximumWidth: 512
    title: "Črna luknja"
 
+   // Menijiv oknu
    menuBar:
       MenuBar
       {
@@ -24,6 +25,7 @@ ApplicationWindow
          {
             title: "Datoteka"
 
+            // Izhod iz programa
             MenuItem
             {
                text: "Izhod"
@@ -31,14 +33,13 @@ ApplicationWindow
                {
                   window.close();
                }
-
-
             }
          }
          Menu
          {
             title: "Pomoč"
 
+            // Prikaz vizitke
             MenuItem
             {
                text: "Vizitka"
@@ -50,10 +51,12 @@ ApplicationWindow
          }
       }
 
+   // Ozadje
    Rectangle
    {
       anchors.fill: parent
 
+      // Slika vesolja
       Image
       {
          source: "Space.jpg"
@@ -61,6 +64,7 @@ ApplicationWindow
          anchors.fill: parent
       }
 
+      // Slika črne luknje
       Image
       {
          source: "black_hole.png"
@@ -70,7 +74,7 @@ ApplicationWindow
          y: 248
       }
 
-
+      // Sistem prikazovanja delcev - v našem primeru Zemlje
       ParticleSystem
       {
          id: sys
@@ -78,6 +82,7 @@ ApplicationWindow
          enabled: true
       }
 
+      // Zemlja kot delec
       ImageParticle
       {
          id: earth
@@ -89,7 +94,7 @@ ApplicationWindow
          height: 32
       }
 
-
+      // Oddajnik, ki kreira Zemljo in jo požene
       Emitter
       {
          id: em
@@ -102,23 +107,28 @@ ApplicationWindow
          y: 127
          width: 0
          height: 0
+
+         // Začetna hitrost Zemlje
          velocity:
             PointDirection
             {
                x: 3
                y: 0
             }
-
       }
 
+      // Gravitacija, ki deluje stalno na Zemljo
       Gravity
       {
          id: g
          system: sys
          magnitude: 5
          angle: 90
+
+         // Na vsako spremembo se kliče tale kos kode
          onAffected:
          {
+            // Če je Zemlja v črni luknji, potem končaj
             if (x > 250 && x < 260 && y > 250 && y < 260)
             {
                sys.stop();
@@ -126,6 +136,7 @@ ApplicationWindow
                earth.enabled = false;
             }
 
+            // Izračunaj novi kot in novi pospešek
             var angle = Help.getAngle(x, y)
             g.angle = angle;
             g.magnitude = Help.getMagnitude(x, y);
@@ -133,6 +144,7 @@ ApplicationWindow
       }
    }
 
+   // Vizitka
    Dialog
    {
       id: dlg
@@ -177,18 +189,18 @@ ApplicationWindow
             horizontalAlignment: "AlignHCenter"
          }
 
+         // Gumb za zapiranje vizitkr
          Button
          {
             Layout.fillWidth: true
             text: "Zapri"
+
+            // Na klik pokliči tale kos kode
             onClicked:
             {
                dlg.close();
             }
          }
       }
-
-
-
    }
 }
