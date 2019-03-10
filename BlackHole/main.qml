@@ -4,20 +4,25 @@ import QtQuick.Layouts 1.3
 import QtQuick.Particles 2.12
 import "help.js" as Help
 
-// Okno programa velikosti 512x512
+// Okno programa velikosti 1024x1024
 ApplicationWindow
 {
    id: window
    visible: true
-   width: 512
-   height: 512
-   minimumWidth: 512
-   minimumHeight: 512
-   maximumHeight: 512
-   maximumWidth: 512
+
+   width: 1024
+   height: 1024
+
+   // Onemogočimo spreminjanje velikosti
+   minimumWidth: 1024
+   minimumHeight: 1024
+   maximumHeight: 1024
+   maximumWidth: 1024
+
+   // Naslov okna
    title: "Črna luknja"
 
-   // Menijiv oknu
+   // Meni okna
    menuBar:
       MenuBar
       {
@@ -31,6 +36,7 @@ ApplicationWindow
                text: "Izhod"
                onTriggered:
                {
+                  // Zapri okno
                   window.close();
                }
             }
@@ -45,6 +51,7 @@ ApplicationWindow
                text: "Vizitka"
                onTriggered:
                {
+                  // Prikaži vizitko
                   dlg.open();
                }
             }
@@ -54,31 +61,32 @@ ApplicationWindow
    // Ozadje
    Rectangle
    {
+      // Je raztegnjen do konca
       anchors.fill: parent
 
-      // Slika vesolja
+      // Slika vesolja raztegnjena kot ozadje
       Image
       {
          source: "Space.jpg"
-         opacity: 0.73
+         opacity: 0.65
          anchors.fill: parent
       }
 
-      // Slika črne luknje
+      // Slika črne luknje v sredini
       Image
       {
          source: "black_hole.png"
          width: 16
          height: 16
-         x: 248
-         y: 248
+         x: 496
+         y: 496
       }
 
-      // Sistem prikazovanja delcev - v našem primeru Zemlje
+      // Sistem prikazovanja delcev - v našem primeru planeta Zemlje
       ParticleSystem
       {
          id: sys
-         anchors.fill: parent
+ //        anchors.fill: parent
          enabled: true
       }
 
@@ -88,23 +96,36 @@ ApplicationWindow
          id: earth
          system: sys
          source: "earth.png"
+
+         // Se takoj prikaže
          entryEffect: ImageParticle.None
-         rotationVelocity: 30
+
+         // Se zavrti 360 stopinj na dan - 1 sekunda v simulaciji
+         rotationVelocity: 360
+
+         // Velikost Zemlje
          width: 32
          height: 32
       }
 
-      // Oddajnik, ki kreira Zemljo in jo požene
+      // Oddajnik, ki kreira Zemljo in jo požene v gibanje
       Emitter
       {
          id: em
          system: sys
          enabled: true
-         lifeSpan: 6000000
+
+         // Življenska doba Zemlje je neskončna
+         lifeSpan: 600000
+
+         // Oddaja en delec na sekundo
          emitRate: 1
+
+         // Samo 1 delec je lahko na ekranu
          maximumEmitted: 1
-         x: 127
-         y: 127
+
+         x: 512
+         y: 362
          width: 0
          height: 0
 
@@ -112,7 +133,7 @@ ApplicationWindow
          velocity:
             PointDirection
             {
-               x: 3
+               x: 2.6
                y: 0
             }
       }
@@ -122,21 +143,21 @@ ApplicationWindow
       {
          id: g
          system: sys
-         magnitude: 5
+         magnitude: 3
          angle: 90
 
          // Na vsako spremembo se kliče tale kos kode
          onAffected:
          {
-            // Če je Zemlja v črni luknji, potem končaj
-            if (x > 250 && x < 260 && y > 250 && y < 260)
+            // Če je Zemlja že v črni luknji, potem končaj
+            if (x > 504 && x < 520 && y > 504 && y < 520)
             {
                sys.stop();
                em.enabled = false;
                earth.enabled = false;
             }
 
-            // Izračunaj novi kot in novi pospešek
+            // Izračunaj novi kot in novi pospešek - razvil oče od Svita V.
             var angle = Help.getAngle(x, y)
             g.angle = angle;
             g.magnitude = Help.getMagnitude(x, y);
@@ -149,10 +170,11 @@ ApplicationWindow
    {
       id: dlg
       title: "Vizitka"
-      x: 128
-      y: 128
-      width: 256
-      height: 256
+
+      x: 256
+      y: 256
+      width: 512
+      height: 512
 
       ColumnLayout
       {
@@ -198,6 +220,7 @@ ApplicationWindow
             // Na klik pokliči tale kos kode
             onClicked:
             {
+               // Zapri vizitko
                dlg.close();
             }
          }
