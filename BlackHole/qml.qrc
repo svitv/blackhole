@@ -5,5 +5,7 @@
         <file>earth.png</file>
         <file>black_hole.png</file>
         <file>help.js</file>
+        <file>close.png</file>
+        <file>info.png</file>
     </qresource>
 </RCC>

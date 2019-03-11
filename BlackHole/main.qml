@@ -1,17 +1,21 @@
 import QtQuick 2.12
+import QtQuick.Window 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 import QtQuick.Particles 2.12
 import "help.js" as Help
 
 // Okno programa velikosti 1024x1024
-ApplicationWindow
+Window
 {
    id: window
    visible: true
 
    width: 1024
    height: 1024
+
+   // Število dni simulacije
+   property int days: 0
 
    // Onemogočimo spreminjanje velikosti
    minimumWidth: 1024
@@ -21,42 +25,6 @@ ApplicationWindow
 
    // Naslov okna
    title: "Črna luknja"
-
-   // Meni okna
-   menuBar:
-      MenuBar
-      {
-         Menu
-         {
-            title: "Datoteka"
-
-            // Izhod iz programa
-            MenuItem
-            {
-               text: "Izhod"
-               onTriggered:
-               {
-                  // Zapri okno
-                  window.close();
-               }
-            }
-         }
-         Menu
-         {
-            title: "Pomoč"
-
-            // Prikaz vizitke
-            MenuItem
-            {
-               text: "Vizitka"
-               onTriggered:
-               {
-                  // Prikaži vizitko
-                  dlg.open();
-               }
-            }
-         }
-      }
 
    // Ozadje
    Rectangle
@@ -75,11 +43,73 @@ ApplicationWindow
       // Slika črne luknje v sredini
       Image
       {
+         id: hole
          source: "black_hole.png"
          width: 16
          height: 16
-         x: 496
-         y: 496
+         x: 504
+         y: 504
+      }
+
+      // Info
+      Image
+      {
+         source: "info.png"
+         width: 64
+         height: 64
+         x: 0
+         y: 960
+
+         MouseArea
+         {
+            anchors.fill: parent
+            onClicked:
+            {
+               dlg.open();
+            }
+         }
+      }
+
+      // Close
+      Image
+      {
+         source: "close.png"
+         width: 64
+         height: 64
+         x: 960
+         y: 960
+
+         MouseArea
+         {
+            anchors.fill: parent
+            onClicked:
+            {
+               window.close();
+            }
+         }
+      }
+
+      // Prikaz dneva
+      Label
+      {
+         id: counter
+         text: " " + days
+         color: "white"
+         font.pixelSize: 20
+      }
+
+      // Števec za dneve
+      Timer
+      {
+         id: timer
+         interval: 1000
+         repeat: true
+
+         running: true
+         onTriggered:
+         {
+            days = days + 1;
+         }
       }
 
       // Sistem prikazovanja delcev - v našem primeru planeta Zemlje
@@ -150,10 +180,11 @@ ApplicationWindow
          onAffected:
          {
             // Če je Zemlja že v črni luknji, potem končaj
-            if (x > 504 && x < 520 && y > 504 && y < 520)
+            if (x > 504 && x < 524 && y > 504 && y < 524)
             {
                sys.stop();
                em.enabled = false;
+               timer.stop();
                earth.enabled = false;
             }
 
@@ -171,10 +202,10 @@ ApplicationWindow
       id: dlg
       title: "Vizitka"
 
-      x: 256
-      y: 256
-      width: 512
-      height: 512
+      x: 384
+      y: 384
+      width: 256
+      height: 256
 
       ColumnLayout
       {
@@ -184,7 +215,7 @@ ApplicationWindow
          {
             Layout.fillWidth: true
             text: "ČRNA LUKNJA"
-            font.weight: Font.Black
+            font.weight: Font.Bold
             font.pixelSize: 20
             horizontalAlignment: "AlignHCenter"
          }

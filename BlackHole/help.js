@@ -58,7 +58,7 @@ function getMagnitude(x, y)
 
    var dist2 = deltaX * deltaX + deltaY * deltaY;
 
-   var magnitude = 2500 / Math.sqrt(dist2);
+   var magnitude = 100 / Math.sqrt(dist2);
 
    return magnitude;
 }
