@@ -6,7 +6,7 @@ import QtQuick.Particles 2.12
 import "help.js" as Help
 
 // Okno programa velikosti 1024x1024
-Window
+ApplicationWindow
 {
    id: window
    visible: true
@@ -189,8 +189,7 @@ Window
             }
 
             // Izračunaj novi kot in novi pospešek - razvil oče od Svita V.
-            var angle = Help.getAngle(x, y)
-            g.angle = angle;
+            g.angle = Help.getAngle(x, y);
             g.magnitude = Help.getMagnitude(x, y);
          }
       }
