@@ -36,7 +36,7 @@ ApplicationWindow
       Image
       {
          source: "Space.jpg"
-         opacity: 0.65
+         opacity: 1.00
          anchors.fill: parent
       }
 

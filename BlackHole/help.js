@@ -56,9 +56,18 @@ function getMagnitude(x, y)
    var deltaX = 511.0 - x;
    var deltaY = 511.0 - y;
 
+   // Šibka črna luknja
+    var magnitude = 100.0;
+
+   // Srednje močna črna luknja
+   // var magnitude = 250.0;
+
+   // Supermasivna črna luknja
+   // var magnitude = 100000.0;
+
    var dist2 = deltaX * deltaX + deltaY * deltaY;
 
-   var magnitude = 100 / Math.sqrt(dist2);
+   magnitude = magnitude / Math.sqrt(dist2);
 
    return magnitude;
 }
